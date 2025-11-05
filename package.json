@@ -1,0 +1,43 @@
+{
+	"name": "river-demo",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": " bunx --bun vite dev",
+		"build": "bunx --bun vite build",
+		"preview": "bunx --bun vite preview",
+		"start": "bun run ./build",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"format": "prettier --write .",
+		"lint": "prettier --check ."
+	},
+	"devDependencies": {
+		"@sveltejs/kit": "^2.47.1",
+		"@sveltejs/vite-plugin-svelte": "^6.2.1",
+		"@tailwindcss/typography": "^0.5.19",
+		"@tailwindcss/vite": "^4.1.14",
+		"prettier": "^3.6.2",
+		"prettier-plugin-svelte": "^3.4.0",
+		"prettier-plugin-tailwindcss": "^0.7.1",
+		"svelte": "^5.41.0",
+		"svelte-adapter-bun": "^1.0.1",
+		"svelte-check": "^4.3.3",
+		"tailwindcss": "^4.1.14",
+		"typescript": "^5.9.3",
+		"vite": "^7.1.10"
+	},
+	"dependencies": {
+		"@davis7dotsh/river-adapter-sveltekit": "^0.0.2",
+		"@davis7dotsh/river-core": "^0.0.2",
+		"@davis7dotsh/river-provider-redis": "^0.0.2",
+		"@openrouter/ai-sdk-provider": "^1.2.0",
+		"ai": "^5.0.87",
+		"ioredis": "^5.8.2",
+		"neverthrow": "^8.2.0",
+		"runed": "^0.35.1",
+		"zod": "^4.1.12"
+	}
+}
