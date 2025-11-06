@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { remoteRunAgentOnServer } from '$lib/demo.remote';
 	import { myRiverClient } from '$lib/river/client';
 	import { marked } from 'marked';
 	import { useSearchParams } from 'runed/kit';
@@ -56,6 +57,19 @@
 
 	const status = $derived(agentCaller.status);
 
+	let isPending = $state(false);
+
+	const handleAskOnServer = async () => {
+		if (!trimmedQuestion) return;
+		isPending = true;
+		const result = await remoteRunAgentOnServer({
+			question: trimmedQuestion
+		});
+		answer = result.answer;
+		wasImposer = result.wasImposer;
+		isPending = false;
+	};
+
 	const handleAsk = () => {
 		if (!trimmedQuestion) return;
 		agentCaller.start({
@@ -77,9 +91,18 @@
 		class="min-h-[200px] w-full resize-none rounded-lg border border-gray-300 p-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 	></textarea>
 
-	<div class="text-sm text-gray-500">{status}</div>
+	<div class="text-sm text-gray-500">
+		{status}{#if isPending}
+			(Pending){/if}
+	</div>
 
 	<div class="mt-4 flex gap-4">
+		<button
+			onclick={handleAskOnServer}
+			class="rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+		>
+			Ask on Server
+		</button>
 		<button
 			onclick={handleAsk}
 			class="rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
