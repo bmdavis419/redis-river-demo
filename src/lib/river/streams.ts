@@ -5,6 +5,7 @@ import { stepCountIs, streamText, tool, type AsyncIterableStream } from 'ai';
 import z from 'zod';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { env } from '$env/dynamic/private';
+import type { SvelteKitAdapterRequest } from '@davis7dotsh/river-adapter-sveltekit';
 
 const openrouter = createOpenRouter({
 	apiKey: env.OPENROUTER_API_KEY
@@ -50,7 +51,7 @@ type ExtractAiSdkChunkType<T> = T extends AsyncIterableStream<infer U> ? U : nev
 
 type ChunkType = ExtractAiSdkChunkType<ReturnType<typeof unreliableAgent>>;
 
-export const unreliableAgentStream = createRiverStream<ChunkType>()
+export const unreliableAgentStream = createRiverStream<ChunkType, SvelteKitAdapterRequest>()
 	.input(
 		z.object({
 			question: z.string()
