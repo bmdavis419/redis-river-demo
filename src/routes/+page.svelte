@@ -21,6 +21,8 @@
 	const parsedAnswer = $derived(marked(answer, { async: false }));
 	let wasImposer = $state<boolean | undefined>(undefined);
 
+	let status = $state<'running' | 'success' | 'error' | 'aborted' | 'idle'>('idle');
+
 	const agentCaller = myRiverClient.unreliableAgent({
 		onChunk: (chunk) => {
 			if (chunk.type === 'text-delta') {
@@ -32,17 +34,23 @@
 			}
 		},
 		onStart: () => {
+			status = 'running';
 			console.log('starting stream');
 			answer = '';
 			wasImposer = false;
 		},
-		onEnd: () => {
+		onSuccess: () => {
 			console.log('stream ended');
+			status = 'success';
 		},
 		onError: (error) => {
 			console.error('stream error', error);
 		},
-		onStreamInfo: (info) => {
+		onFatalError: (error) => {
+			console.error('stream fatal error', error);
+			status = 'error';
+		},
+		onInfo: (info) => {
 			if (info.encodedResumptionToken) {
 				params.resumeKey = info.encodedResumptionToken;
 			}
@@ -54,8 +62,6 @@
 			agentCaller.resume(resumeKey);
 		}
 	});
-
-	const status = $derived(agentCaller.status);
 
 	let isPending = $state(false);
 
@@ -92,7 +98,7 @@
 	></textarea>
 
 	<div class="text-sm text-gray-500">
-		{status}{#if isPending}
+		{#if isPending}
 			(Pending){/if}
 	</div>
 

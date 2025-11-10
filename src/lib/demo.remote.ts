@@ -9,7 +9,7 @@ export const remoteRunAgentOnServer = command(
 	}),
 	async ({ question }) => {
 		const event = getRequestEvent();
-		const agentResult = await myServerCaller.unreliableAgent.startStreamAndConsume({
+		const agentResult = await myServerCaller.unreliableAgent.start({
 			input: { question },
 			adapterRequest: {
 				event
@@ -25,7 +25,7 @@ export const remoteRunAgentOnServer = command(
 		let wasImposer = false;
 
 		for await (const entry of agentResult.value) {
-			if (entry.type === 'special') continue;
+			if (entry.type === 'special' || entry.type === 'aborted') continue;
 			const { chunk } = entry;
 
 			if (chunk.type === 'text-delta') {

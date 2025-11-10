@@ -30,9 +30,9 @@
 		"vite": "^7.1.10"
 	},
 	"dependencies": {
-		"@davis7dotsh/river-adapter-sveltekit": "^0.1.0",
-		"@davis7dotsh/river-core": "^0.1.0",
-		"@davis7dotsh/river-provider-redis": "^0.1.0",
+		"@davis7dotsh/river-adapter-sveltekit": "^0.2.0",
+		"@davis7dotsh/river-core": "^0.2.0",
+		"@davis7dotsh/river-provider-redis": "^0.2.0",
 		"@openrouter/ai-sdk-provider": "^1.2.0",
 		"ai": "^5.0.87",
 		"ioredis": "^5.8.2",
